@@ -2,7 +2,7 @@
 
 Ce projet vise a creer une makefile qui est importable directement dans vos projet avec la commande 
 
-    git submodule add git@github.com:overlor-d/makefile.git chemin/vers/sous-module
+    git submodule add git@github.com:overlor-d/makefile.git ./
 
 ## Structure du Projet
 
