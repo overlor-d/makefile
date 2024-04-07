@@ -1,27 +1,12 @@
 -include Makefile.rules
+-include var.mk
 
-# dossier des fichiers sources
-SRC_DIR = src
-
-# fichiers source pour la compilation
-SRCS = 
 # fichier en .o
 OBJS = $(SRCS:.c=.o)
-
-#nom pour le projet
-NAME = jean.lepeltier
-
-# nom du projet pour les librairies
-NOM_PROJ = 
 
 # nom des librairies
 LIB_STATIC = $(NOM_PROJ).a
 LIB_SHARED = $(NOM_PROJ).so
-
-ARCHIVE_NAME =
-
-# Fichiers pour l'archive targz2
-FILES = 
 
 # notre prof pourrait avoir la méchante idée d'ajouter un fichier avec le même nom qu'une des fonctions du makefile eh eh
 .PHONY: all clean dist distclean check $(NOM_PROJ) shared static

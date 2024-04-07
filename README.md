@@ -1,11 +1,11 @@
-# Jean Lepeltier Project
+# Makefile project
 
-Ce projet vise à créer une bibliothèque statique et une bibliothèque partagée à partir de fichiers source C situés dans le répertoire `src`. Le projet est nommé d'après Jean Lepeltier, reflétant la structure et la méthodologie utilisées dans le processus de compilation et de gestion de la bibliothèque.
+Ce projet vise a creer une makefile qui est importable directement dans vos projet avec la commande 
+    git submodule add git@github.com:overlor-d/makefile.git chemin/vers/sous-module
 
 ## Structure du Projet
 
-- `src/`: Dossier contenant les fichiers sources `.c`.
-- `Makefile`: Contient les instructions pour compiler les bibliothèques et gérer le projet.
+Pour faire en sorte que ce makefile soit compatible avec ce projet il faudra remplir le fichier `var.mk`
 
 ## Compilation
 
