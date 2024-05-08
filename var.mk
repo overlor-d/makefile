@@ -1,17 +1,17 @@
-#nom du realisateur du projet
+# Nom de l'auteur
 NAME = 
 
-# nom du projet pour les librairies
+# Nom du projet
 NOM_PROJ = 
 
-# dossier des fichiers sources
-SRC_DIR =
-
-# fichiers source pour la compilation
-SRCS = 
+# Dossier des fichiers à compiler en .c pour l'executable
+SRC_DIR = 
 
 # nom que vous souhaitez donner a larchive avec la commande donne dans le README.md
-ARCHIVE_NAME =
+ARCHIVE_NAME = 
 
 # Fichiers pour l'archive targz2
-FILES = 
+FILES_ARCH = 
+
+# Name of library
+LIBRARY_NAME = 

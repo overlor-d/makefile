@@ -1,41 +1,46 @@
 -include Makefile.rules
 -include var.mk
 
-# fichier en .o
-OBJS = $(SRCS:.c=.o)
+OBJ_FILES = $(SRC_DIR/*.c:.c=.o)
 
-# nom des librairies
-LIB_STATIC = $(NOM_PROJ).a
-LIB_SHARED = $(NOM_PROJ).so
+all: $(LIBRARY_NAME)_lib_static 
 
-# notre prof pourrait avoir la méchante idée d'ajouter un fichier avec le même nom qu'une des fonctions du makefile eh eh
-.PHONY: all clean dist distclean check $(NOM_PROJ) shared static
+$(LIBRARY_NAME)_lib_static: $(OBJ_FILES)
+	@echo "Création de la librairie statique"
+	ar rcs $(LIBRARY_NAME).a $(OBJ_FILES)
 
-all: $(NOM_PROJ)
+$(LIBRARY_NAME)_lib_dinamic: $(OBJ_FILES)
+	@echo "Création de la librairie dinamique"
+	$(CC) -shared -o $(LIBRARY_NAME).so $(OBJ_FILES) $(LDFLAGS)
 
-$(NOM_PROJ): shared static
+compil: $(OBJ_FILES)
+	$(CC) $(CFLAGS) -o programme.out $(OBJ_FILES) $(LDFLAGS)
 
-static: $(OBJS)
-	@$(AR) rcs $(LIB_STATIC) $(OBJS)
+%.o: %.c
+	$(CC) -c $(CFLAGS) -o $@ $<
 
-shared: $(OBJS)
-	@$(CC) -shared -o $(LIB_SHARED) $(OBJS)
+check: compil
+	@if [ -f option ]; then \
+		echo "Exécution de programme.out avec les options du fichier 'option'"; \
+		OPTIONS=`cat option`; \
+		./programme.out $$OPTIONS; \
+	else \
+		echo "Fichier 'option' non trouvé."; \
+	fi
 
-$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
-	@$(CC) $(CFLAGS) -fPIC -c $< -o $@
+dev: compil
+	@echo "Lancement du mode développement..."
+	@tmux new-session -d -s dev_session './programme.out && echo "------------------------------" && echo "Exécution terminée"'
+	@while inotifywait -q -r -e modify $(SRC_DIR)/*.c; do \
+		if make compil; then \
+			echo "Recompilation réussie"; \
+			tmux send-keys -t dev_session 'clear && ./programme.out && echo "------------------------------" && echo "Exécution terminée"' Enter; \
+		else \
+			echo "Erreur de compilation, arrêt."; \
+			tmux kill-session -t dev_session; \
+			exit 1; \
+		fi; \
+	done
 
 clean:
-	@rm -f $(SRC_DIR)/*.o $(LIB_STATIC) $(LIB_SHARED)
-
-dist: all
-	@tar -czvf $(ARCHIVE_NAME) $(FILES)
-
-distclean: clean
-	@rm -f $(ARCHIVE_NAME)
-
-compil_all: all
-	cp $(LIB_STATIC) ./check/
-	cd check && ./check.sh
-
-check: compil_all
-	./check/test
+	rm -rf $(OBJ_FILES) $(LIBRARY_NAME).a $(LIBRARY_NAME).so programme.out
