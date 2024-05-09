@@ -29,7 +29,7 @@ check: compil
 	fi
 
 dev:
-	gnome-terminal -- bash -c 'while true; do \
+	@gnome-terminal -- bash -c 'while true; do \
         $(MAKE) -s check > ./$(TEST_DIR)/compile_output.txt 2>&1; \
         ERR=$$?; \
 		clear; \
@@ -48,6 +48,6 @@ dev:
     read -p ""; \
     kill $$!; \
 	$(MAKE) -s clean'
-	
+
 clean:
 	rm -rf $(OBJ_FILES) $(LIBRARY_NAME).a $(LIBRARY_NAME).so programme.out
