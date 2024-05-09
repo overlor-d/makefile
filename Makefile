@@ -1,7 +1,9 @@
 -include Makefile.rules
 -include var.mk
 
-OBJ_FILES = $(SRC_DIR/*.c:.c=.o)
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+
+OBJ_FILES = $(SRC_FILES:.c=.o)
 
 all: $(LIBRARY_NAME)_lib_static 
 
@@ -30,7 +32,7 @@ check: compil
 
 dev:
 	@gnome-terminal -- bash -c 'while true; do \
-        $(MAKE) -s check > ./$(TEST_DIR)/compile_output.txt 2>&1; \
+        $(MAKE) -s compil > ./$(TEST_DIR)/compile_output.txt 2>&1; \
         ERR=$$?; \
 		clear; \
         if [ $$ERR -ne 0 ]; then \
@@ -50,4 +52,4 @@ dev:
 	$(MAKE) -s clean'
 
 clean:
-	rm -rf $(OBJ_FILES) $(LIBRARY_NAME).a $(LIBRARY_NAME).so programme.out
+	@rm -rf $(OBJ_FILES) $(LIBRARY_NAME).a $(LIBRARY_NAME).so programme.out
