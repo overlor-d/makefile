@@ -18,3 +18,6 @@ LIBRARY_NAME =
 
 # Dossier pour afficher les comptes rendus des tests
 TEST_DIR = 
+
+# Fichier qui permet de mettre les options que l'on souhaite dans le programme
+FILE_OPTION_PROGRAMM = 

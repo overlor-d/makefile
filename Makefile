@@ -37,7 +37,7 @@ dev:
             FILE_CONTENT=$$(cat ./$(TEST_DIR)/compile_output.txt); \
 			echo "$$FILE_CONTENT"; \
         else \
-			OPTIONS=$$(cat $(TEST_DIR)/options_file); \
+			OPTIONS=$$(cat $(TEST_DIR)/$(FILE_OPTION_PROGRAMM)); \
             ./$(TEST_DIR)/$(OUTPUT) $$OPTIONS; \
 			ERR=$$?; \
 			echo "---------------------------------------"; \
