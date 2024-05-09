@@ -40,7 +40,7 @@ dev:
 			echo "$$FILE_CONTENT"; \
         else \
 			OPTIONS=$$(cat $(TEST_DIR)/$(FILE_OPTION_PROGRAMM)); \
-            ./$(TEST_DIR)/$(OUTPUT) $$OPTIONS; \
+            ./programme.out $$OPTIONS; \
 			ERR=$$?; \
 			echo "---------------------------------------"; \
 			echo "Retour du programme : $$ERR"; \
