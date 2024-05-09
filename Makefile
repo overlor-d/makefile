@@ -28,19 +28,26 @@ check: compil
 		echo "Fichier 'option' non trouvé."; \
 	fi
 
-dev: compil
-	@echo "Lancement du mode développement..."
-	@tmux new-session -d -s dev_session './programme.out && echo "------------------------------" && echo "Exécution terminée"'
-	@while inotifywait -q -r -e modify $(SRC_DIR)/*.c; do \
-		if make compil; then \
-			echo "Recompilation réussie"; \
-			tmux send-keys -t dev_session 'clear && ./programme.out && echo "------------------------------" && echo "Exécution terminée"' Enter; \
-		else \
-			echo "Erreur de compilation, arrêt."; \
-			tmux kill-session -t dev_session; \
-			exit 1; \
-		fi; \
-	done
-
+dev:
+	gnome-terminal -- bash -c 'while true; do \
+        $(MAKE) -s check > ./$(TEST_DIR)/compile_output.txt 2>&1; \
+        ERR=$$?; \
+		clear; \
+        if [ $$ERR -ne 0 ]; then \
+            FILE_CONTENT=$$(cat ./$(TEST_DIR)/compile_output.txt); \
+			echo "$$FILE_CONTENT"; \
+        else \
+			OPTIONS=$$(cat $(TEST_DIR)/options_file); \
+            ./$(TEST_DIR)/$(OUTPUT) $$OPTIONS; \
+			ERR=$$?; \
+			echo "---------------------------------------"; \
+			echo "Retour du programme : $$ERR"; \
+         fi; \
+        sleep 2; \
+    done & \
+    read -p ""; \
+    kill $$!; \
+	$(MAKE) -s clean'
+	
 clean:
 	rm -rf $(OBJ_FILES) $(LIBRARY_NAME).a $(LIBRARY_NAME).so programme.out

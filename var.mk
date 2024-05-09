@@ -15,3 +15,6 @@ FILES_ARCH =
 
 # Name of library
 LIBRARY_NAME = 
+
+# Dossier pour afficher les comptes rendus des tests
+TEST_DIR = 
